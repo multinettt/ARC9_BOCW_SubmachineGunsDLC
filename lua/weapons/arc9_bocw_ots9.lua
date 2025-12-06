@@ -1,14 +1,14 @@
 --=============================================================================
 --   ARC9 CALL OF DUTY: BLACK OPS COLD WAR
 --   SUBMACHINE GUNS DLC
---   OTs 9
+--   OTS 9
 --=============================================================================
 --[[
 --   SWEP INFORMATION:
 
 --   BASE  : ARC9
---   BUILD : v2025.9
---   SR.NO : N/A
+--   BUILD : v2025.12
+--   SR.NO : 
 
 
   .oooooo.   ooooooooooooo              .ooooo.   
@@ -248,7 +248,15 @@ SWEP.ShootWhileSprint = false
 SWEP.Speed = 1
 
 SWEP.SpeedMult = 1
-SWEP.SpeedMultSprint = 0.685185185185185
+
+local SprintMultCvar = GetConVar("arc9_bocw_sprintmultiplier")
+
+if SprintMultCvar:GetBool() then
+    SWEP.SpeedMultSprint = 0.685185185185185 -- SPRINT SPEED RELATIVE TO MOVE SPEED
+else
+    SWEP.SpeedMultSprint = 1 -- this may possibly change later
+end
+
 SWEP.SpeedMultSights = 0.7916666666666667
 SWEP.SpeedMultShooting = 0.95
 SWEP.SpeedMultMelee = 0.8
@@ -672,6 +680,22 @@ SWEP.Attachments = {
         CosmeticOnly = true,
     },
 }
+--=========================================================
+-- CUSTOM SLOT INSERTION
+local CustomSlotCvar = GetConVar("arc9_bocw_customslot")
+local CustomSlotTable = {
+    PrintName = "Custom Slot",
+    Bone = "tag_weapon",
+    Pos = Vector(0, 0, 0),
+    Ang = Angle(0, 0, 0),
+    Icon_Offset = Vector(-4, 0, 2.5),
+    Category = {"bocw_custom_slot", "bocw_custom_slot_ots9"},
+}
+
+if CustomSlotCvar:GetBool() then
+    table.insert(SWEP.Attachments, CustomSlotTable)
+end
+--=========================================================
 
 SWEP.Hook_ModifyBodygroups = function(self, data)
 
